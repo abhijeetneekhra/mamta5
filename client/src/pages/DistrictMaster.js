@@ -18,6 +18,7 @@ const DistrictMaster = () => {
   const [inputs, setInputs] = useState({
     districtcode: "",
     districtname: "",
+    state: "",
   });
 
   const [users, setUsers] = useState([]);
@@ -42,6 +43,7 @@ const DistrictMaster = () => {
         districtcode: inputs.districtcode,
         districtname: inputs.districtname,
         isActive: isChecked,
+        state: inputs.state,
       });
       if (data.success) {
         toast.success("User Saved Successfully");
@@ -56,8 +58,32 @@ const DistrictMaster = () => {
     try {
       const { data } = await axios.get("/api/v1/district/all-districts");
       if (data?.success) {
-        setUsers(data.users);
         //console.log("users ", users);
+
+        data.users.forEach((value) => {
+          // console.log("value.state = " + value.state);
+          switch (value.state) {
+            case "1":
+              value.statename = "Uttar Pradesh";
+              break;
+            case "2":
+              value.statename = "Madhya Pradesh";
+              break;
+            case "3":
+              value.statename = "Andhra Pradesh";
+              break;
+            case "4":
+              value.statename = "Orissa";
+              break;
+            case "5":
+              value.statename = "Chattisgarh";
+              break;
+            default:
+              value.statename = "No value found";
+          }
+        });
+
+        setUsers(data.users);
       }
     } catch (error) {
       console.log(error);
@@ -161,7 +187,10 @@ const DistrictMaster = () => {
                         <thead className="bg-gray">
                           <tr>
                             <th className="w-5 border-bottom-0 text-white">
-                              SNo.
+                              State ID
+                            </th>
+                            <th className="w-5 border-bottom-0 text-white">
+                              State
                             </th>
                             <th className="wd-15p border-bottom-0 text-white">
                               District Abbr.
@@ -181,7 +210,8 @@ const DistrictMaster = () => {
                           {users.map((value, key) => {
                             return (
                               <tr key={key}>
-                                <td className="text-center">{key + 1}</td>
+                                <td className="text-center">{value.state}</td>
+                                <td>{value.statename}</td>
                                 <td>{value.districtcode}</td>
                                 <td>{value.districtname}</td>
                                 <td className="text-center">
@@ -242,6 +272,24 @@ const DistrictMaster = () => {
                       </div>
                       <div className="card-body">
                         <div className="row">
+                          <div className="col-md-4">
+                            <label className="form-label">
+                              State<span className="text-red">*</span>
+                            </label>
+                            <select
+                              className="form-control"
+                              value={inputs.state}
+                              onChange={handleChange}
+                              name="state"
+                            >
+                              <option value="Select State">Select State</option>
+                              <option value="1">Uttar Pradesh</option>
+                              <option value="2">Madhya Pradesh</option>
+                              <option value="3">Andhra Pradesh</option>
+                              <option value="4">Orissa</option>
+                              <option value="5">Chattisgarh</option>
+                            </select>
+                          </div>
                           <div className="col-md-4">
                             <label className="form-label">
                               District Code<span className="text-red">*</span>

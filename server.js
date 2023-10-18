@@ -4,6 +4,7 @@ const morgan = require("morgan");
 const colors = require("colors");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db");
+const path = require("path");
 
 //.env config
 dotenv.config();
@@ -34,6 +35,13 @@ app.use("/api/v1/student", studentRoutes);
 app.use("/api/v1/school", schoolRoutes);
 app.use("/api/v1/score", scoreRoutes);
 app.use("/api/v1/rank", rankRoutes);
+
+//static files
+app.use(express.static(path.join(__dirname, "./client/build")));
+
+app.get("*", function (req, res) {
+  res.sendFile(path.join(__dirname, "./client/build/index.html"));
+});
 
 //port
 const PORT = process.env.port || 4000;

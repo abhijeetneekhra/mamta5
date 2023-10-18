@@ -3,17 +3,22 @@ const districtModel = require("../models/districtModel");
 //create user register user
 exports.districtCreateController = async (req, res) => {
   try {
-    const { districtcode, districtname, isActive } = req.body;
+    const { districtcode, districtname, state, isActive } = req.body;
     //validation
-    if (!districtcode || !districtname) {
+    if (!districtcode || !districtname || !state) {
       return res.status(400).send({
         success: false,
-        message: "Please Fill districtcode and districtname",
+        message: "Please Fill districtcode, districtname and state",
       });
     }
 
     //save new user
-    const user = new districtModel({ districtcode, districtname, isActive });
+    const user = new districtModel({
+      districtcode,
+      districtname,
+      state,
+      isActive,
+    });
     await user.save();
 
     return res.status(201).send({

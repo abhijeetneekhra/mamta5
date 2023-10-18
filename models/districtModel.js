@@ -4,11 +4,15 @@ const districtSchema = new mongoose.Schema(
   {
     districtcode: {
       type: String,
-      required: [true, "statecode is required"],
+      required: [true, "distictcode is required"],
     },
     districtname: {
       type: String,
-      required: [true, "statename is required"],
+      required: [true, "districtname is required"],
+    },
+    state: {
+      type: String,
+      required: [true, "state is required"],
     },
     isActive: {
       type: Boolean,
