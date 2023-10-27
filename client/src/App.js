@@ -8,6 +8,7 @@ import StudentMaster from "./pages/StudentMaster";
 import ScoreMaster from "./pages/ScoreMaster";
 import RankMaster from "./pages/RankMaster";
 import ScoreList from "./pages/ScoreList";
+import PartnerMaster from "./pages/PartnerMaster";
 import ImportingData from "./pages/ImportingData";
 import { Toaster } from "react-hot-toast";
 
@@ -23,6 +24,7 @@ const App = () => {
         <Route path="/studentmaster" element={<StudentMaster />} />
         <Route path="/scoremaster" element={<ScoreMaster />} />
         <Route path="/rankmaster" element={<RankMaster />} />
+        <Route path="/partnermaster" element={<PartnerMaster />} />
         <Route path="/scorelist" element={<ScoreList />} />
         <Route path="/importingdata" element={<ImportingData />} />
       </Routes>

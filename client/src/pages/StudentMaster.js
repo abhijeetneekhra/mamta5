@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import axios from "axios";
+import { CSVLink } from "react-csv";
 
 const StudentMaster = () => {
   function show1(str) {
@@ -19,10 +20,21 @@ const StudentMaster = () => {
   const [inputs, setInputs] = useState({
     studentcode: "",
     studentname: "",
+    parentsname: "",
+    mobile: "",
+    classs: "",
+    gender: "",
+    schoolcode: "",
     schoolname: "",
-    fathersname: "",
-    mobileno: "",
-    email: "",
+    pin: "",
+    state: "",
+    district: "",
+    totalquestion: "",
+    correctanswer: "",
+    notattempted: "",
+    neatness: "",
+    score: "",
+    percentage: "",
   });
 
   const [users, setUsers] = useState([]);
@@ -48,10 +60,21 @@ const StudentMaster = () => {
       const { data } = await axios.post("/api/v1/student/register", {
         studentcode: inputs.studentcode,
         studentname: inputs.studentname,
+        parentsname: inputs.parentsname,
+        mobile: inputs.mobile,
+        classs: inputs.classs,
+        gender: inputs.gender,
+        schoolcode: inputs.schoolcode,
         schoolname: inputs.schoolname,
-        fathersname: inputs.fathersname,
-        mobileno: inputs.mobileno,
-        email: inputs.email,
+        pin: inputs.pin,
+        state: inputs.state,
+        district: inputs.district,
+        totalquestion: inputs.totalquestion,
+        correctanswer: inputs.correctanswer,
+        notattempted: inputs.notattempted,
+        neatness: inputs.neatness,
+        score: inputs.score,
+        percentage: inputs.percentage,
         isActive: isChecked,
       });
       if (data.success) {
@@ -152,18 +175,38 @@ const StudentMaster = () => {
 
                     <div className="card mb-0">
                       <div className="card-header bg-success-transparent">
-                        <h4 className="card-title col-md-9">
+                        <h4 className="card-title col-md-3">
                           <i className="fa fa-filter me-2"></i> Search Filters
                         </h4>
-                        <div className="input-group col-md-3 p-0">
-                          <input
-                            type="text"
-                            className="form-control "
-                            placeholder="Search for..."
-                          />
+                        <div className="input-group col-md-2 p-0">
+                          <select className="form-control">
+                            <option value="Select State">Select State</option>
+                          </select>
+                        </div>
+                        &nbsp;&nbsp;
+                        <div className="input-group col-md-2 p-0">
+                          <select className="form-control">
+                            <option value="Select District">
+                              Select District
+                            </option>
+                          </select>
+                        </div>
+                        &nbsp;&nbsp;
+                        <div className="input-group col-md-2 p-0">
                           <span className="input-group-text btn btn-primary">
                             Go!
                           </span>
+                        </div>
+                        <div className="input-group col-md-2 p-0">
+                          <CSVLink
+                            type="button"
+                            class="btn btn-success btn-lg"
+                            data={users}
+                            filename={"student-registrations.csv"}
+                            style={{ margin: "11px" }}
+                          >
+                            Export All
+                          </CSVLink>
                         </div>
                       </div>
                     </div>
@@ -178,19 +221,52 @@ const StudentMaster = () => {
                               Student Code
                             </th>
                             <th className="wd-15p border-bottom-0 text-white">
-                              Student Name{" "}
+                              Student Name
+                            </th>
+                            <th className="wd-15p border-bottom-0 text-white">
+                              Parents Name
+                            </th>
+                            <th className="wd-15p border-bottom-0 text-white">
+                              Mobile
+                            </th>
+                            <th className="wd-15p border-bottom-0 text-white">
+                              Class
+                            </th>
+                            <th className="wd-15p border-bottom-0 text-white">
+                              Gender
+                            </th>
+                            <th className="wd-15p border-bottom-0 text-white">
+                              School Code
                             </th>
                             <th className="wd-15p border-bottom-0 text-white">
                               School Name
                             </th>
                             <th className="wd-15p border-bottom-0 text-white">
-                              Fathers Name
+                              Pin
                             </th>
                             <th className="wd-15p border-bottom-0 text-white">
-                              Mobile No.{" "}
+                              State
                             </th>
                             <th className="wd-15p border-bottom-0 text-white">
-                              Email{" "}
+                              District
+                            </th>
+                            <th className="wd-15p border-bottom-0 text-white">
+                              Total Question
+                            </th>
+                            <th className="wd-15p border-bottom-0 text-white">
+                              Correct Answer
+                            </th>
+                            <th className="wd-15p border-bottom-0 text-white">
+                              Not Attempted
+                            </th>
+                            <th className="wd-15p border-bottom-0 text-white">
+                              Neatness
+                            </th>
+                            <th className="wd-15p border-bottom-0 text-white">
+                              Score
+                            </th>
+                            <th className="wd-15p border-bottom-0 text-white">
+                              Percentage
                             </th>
                             <th className="w-10 border-bottom-0 text-white text-center">
                               Status
@@ -207,10 +283,21 @@ const StudentMaster = () => {
                                 <td className="text-center">{key + 1}</td>
                                 <td>{value.studentcode}</td>
                                 <td>{value.studentname}</td>
+                                <td>{value.parentsname}</td>
+                                <td>{value.mobile}</td>
+                                <td>{value.classs}</td>
+                                <td>{value.gender}</td>
+                                <td>{value.schoolcode}</td>
                                 <td>{value.schoolname}</td>
-                                <td>{value.fathersname}</td>
-                                <td>{value.mobileno}</td>
-                                <td>{value.email}</td>
+                                <td>{value.pin}</td>
+                                <td>{value.state}</td>
+                                <td>{value.district}</td>
+                                <td>{value.totalquestion}</td>
+                                <td>{value.correctanswer}</td>
+                                <td>{value.notattempted}</td>
+                                <td>{value.neatness}</td>
+                                <td>{value.score}</td>
+                                <td>{value.percentage}</td>
                                 <td className="text-center">
                                   <span className="badge bg-success">
                                     {value.isActive ? "Active" : "Inactive"}
@@ -303,7 +390,7 @@ const StudentMaster = () => {
                               placeholder="Enter Student Name"
                             />
                           </div>
-                          <div className="col-md-4">
+                          {/* <div className="col-md-4">
                             <label className="form-label">
                               School<span className="text-red">*</span>
                             </label>
@@ -319,29 +406,28 @@ const StudentMaster = () => {
                               <option Value="DPS">DPS</option>
                               <option Value="St. Aloysius">St.Aloysius</option>
                             </select>
-                          </div>
+                          </div> */}
                           <div className="col-md-4">
                             <label className="form-label">
-                              {" "}
-                              Fathers Name<span className="text-red">*</span>
+                              Parents Name<span className="text-red">*</span>
                             </label>
                             <input
-                              value={inputs.fathersname}
+                              value={inputs.parentsname}
                               onChange={handleChange}
-                              name="fathersname"
+                              name="parentsname"
                               type="text"
                               className="form-control"
-                              placeholder="Enter Fathers Name"
+                              placeholder="Enter Parents Name"
                             />
                           </div>
                           <div className="col-md-4">
                             <label className="form-label">
-                              Mobile No.<span className="text-red">*</span>
+                              Mobile<span className="text-red">*</span>
                             </label>
                             <input
-                              value={inputs.mobileno}
+                              value={inputs.mobile}
                               onChange={handleChange}
-                              name="mobileno"
+                              name="mobile"
                               type="text"
                               className="form-control"
                               placeholder="Enter Mobile No."
@@ -349,44 +435,100 @@ const StudentMaster = () => {
                           </div>
                           <div className="col-md-4">
                             <label className="form-label">
-                              Email<span className="text-red">*</span>
+                              Class<span className="text-red">*</span>
                             </label>
                             <input
-                              value={inputs.email}
+                              value={inputs.classs}
                               onChange={handleChange}
-                              name="email"
+                              name="classs"
                               type="text"
                               className="form-control"
-                              placeholder="Enter Mobile No."
+                              placeholder="Enter Class"
                             />
                           </div>
                           <div className="col-md-4">
                             <label className="form-label">
                               Gender<span className="text-red">*</span>
                             </label>
-                            <select className="form-control">
-                              <option>Male</option>
-                              <option>Female</option>
+                            <select
+                              className="form-control"
+                              name="gender"
+                              value={inputs.gender}
+                              onChange={handleChange}
+                            >
+                              <option value="Select Gender">
+                                Select Gender
+                              </option>
+                              <option value="Male">Male</option>
+                              <option value="Female">Female</option>
+                              <option value="Transgender">Transgender</option>
                             </select>
                           </div>
                           <div className="col-md-4">
                             <label className="form-label">
-                              Class<span className="text-red">*</span>
-                            </label>
-                            <select className="form-control">
-                              <option>Select Class</option>
-                              <option>1st</option>
-                              <option>2nd</option>
-                            </select>
-                          </div>
-                          <div className="col-md-4">
-                            <label className="form-label">
-                              Exam Name<span className="text-red">*</span>
+                              School code<span className="text-red">*</span>
                             </label>
                             <input
                               type="text"
                               className="form-control"
-                              placeholder="Enter Exam Name"
+                              placeholder="Enter School Code"
+                              value={inputs.schoolcode}
+                              name="schoolcode"
+                              onChange={handleChange}
+                            />
+                          </div>
+                          <div className="col-md-4">
+                            <label className="form-label">
+                              School Name<span className="text-red">*</span>
+                            </label>
+                            <input
+                              type="text"
+                              className="form-control"
+                              placeholder="Enter School Name"
+                              value={inputs.schoolname}
+                              name="schoolname"
+                              onChange={handleChange}
+                            />
+                          </div>
+                          <div className="col-md-4">
+                            <label className="form-label">
+                              Pin<span className="text-red">*</span>
+                            </label>
+                            <input
+                              type="text"
+                              className="form-control"
+                              placeholder="Enter Pin"
+                              value={inputs.pin}
+                              name="pin"
+                              onChange={handleChange}
+                            />
+                          </div>
+                          <div className="col-md-4">
+                            <label className="form-label">
+                              State
+                              <span className="text-red">*</span>
+                            </label>
+                            <input
+                              type="text"
+                              className="form-control"
+                              placeholder="Enter State Name"
+                              value={inputs.state}
+                              name="state"
+                              onChange={handleChange}
+                            />
+                          </div>
+                          <div className="col-md-4">
+                            <label className="form-label">
+                              District
+                              <span className="text-red">*</span>
+                            </label>
+                            <input
+                              type="text"
+                              className="form-control"
+                              placeholder="Enter District Name"
+                              value={inputs.district}
+                              name="district"
+                              onChange={handleChange}
                             />
                           </div>
                           <div className="col-md-4">
@@ -396,61 +538,79 @@ const StudentMaster = () => {
                             <input
                               type="text"
                               className="form-control"
-                              placeholder="Enter Exam Name"
+                              placeholder="Enter Total Question"
+                              value={inputs.totalquestion}
+                              name="totalquestion"
+                              onChange={handleChange}
                             />
                           </div>
                           <div className="col-md-4">
                             <label className="form-label">
-                              Attempted Question
+                              Correct Answer<span className="text-red">*</span>
+                            </label>
+                            <input
+                              type="text"
+                              className="form-control"
+                              placeholder="Enter Correct Answer"
+                              value={inputs.correctanswer}
+                              name="correctanswer"
+                              onChange={handleChange}
+                            />
+                          </div>
+                          <div className="col-md-4">
+                            <label className="form-label">
+                              Not Attempted
                               <span className="text-red">*</span>
                             </label>
                             <input
                               type="text"
                               className="form-control"
-                              placeholder="Enter Exam Name"
+                              placeholder="Enter Not Attempted"
+                              value={inputs.notattempted}
+                              name="notattempted"
+                              onChange={handleChange}
                             />
                           </div>
-                          .
                           <div className="col-md-4">
                             <label className="form-label">
-                              Unattempted Question
+                              Neatness
                               <span className="text-red">*</span>
                             </label>
                             <input
                               type="text"
                               className="form-control"
-                              placeholder="Enter Exam Name"
+                              placeholder="Enter Neatness"
+                              value={inputs.neatness}
+                              name="neatness"
+                              onChange={handleChange}
                             />
                           </div>
                           <div className="col-md-4">
                             <label className="form-label">
-                              Neatness<span className="text-red">*</span>
-                            </label>
-                            <input
-                              type="text"
-                              className="form-control"
-                              placeholder="Enter Exam Name"
-                            />
-                          </div>
-                          <div className="col-md-4">
-                            <label className="form-label">
-                              Score<span className="text-red">*</span>
-                            </label>
-                            <input
-                              type="text"
-                              className="form-control"
-                              placeholder="Enter Exam Name"
-                            />
-                          </div>
-                          <div className="col-md-4">
-                            <label className="form-label">
-                              Percentage of Previous Class
+                              Score
                               <span className="text-red">*</span>
                             </label>
                             <input
                               type="text"
                               className="form-control"
-                              placeholder="Enter Exam Name"
+                              placeholder="Enter Score"
+                              value={inputs.score}
+                              name="score"
+                              onChange={handleChange}
+                            />
+                          </div>
+                          <div className="col-md-4">
+                            <label className="form-label">
+                              Percentage
+                              <span className="text-red">*</span>
+                            </label>
+                            <input
+                              type="text"
+                              className="form-control"
+                              placeholder="Enter Percentage"
+                              value={inputs.percentage}
+                              name="percentage"
+                              onChange={handleChange}
                             />
                           </div>
                           <div className="col-md-2">

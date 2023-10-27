@@ -6,20 +6,42 @@ exports.studentCreateController = async (req, res) => {
     const {
       studentcode,
       studentname,
+      parentsname,
+      mobile,
+      classs,
+      gender,
+      schoolcode,
       schoolname,
-      fathersname,
-      mobileno,
-      email,
+      pin,
+      state,
+      district,
+      totalquestion,
+      correctanswer,
+      notattempted,
+      neatness,
+      score,
+      percentage,
       isActive,
     } = req.body;
     //validation
     if (
       !studentcode ||
       !studentname ||
+      !parentsname ||
+      !mobile ||
+      !classs ||
+      !gender ||
+      !schoolcode ||
       !schoolname ||
-      !fathersname ||
-      !mobileno ||
-      !email
+      !pin ||
+      !state ||
+      !district ||
+      !totalquestion ||
+      !correctanswer ||
+      !notattempted ||
+      !neatness ||
+      !score ||
+      !percentage
     ) {
       return res.status(400).send({
         success: false,
@@ -31,10 +53,21 @@ exports.studentCreateController = async (req, res) => {
     const user = new studentModel({
       studentcode,
       studentname,
+      parentsname,
+      mobile,
+      classs,
+      gender,
+      schoolcode,
       schoolname,
-      fathersname,
-      mobileno,
-      email,
+      pin,
+      state,
+      district,
+      totalquestion,
+      correctanswer,
+      notattempted,
+      neatness,
+      score,
+      percentage,
       isActive,
     });
     await user.save();

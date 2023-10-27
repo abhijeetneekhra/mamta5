@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import axios from "axios";
 
-const SchoolMaster = () => {
+const PartnerMaster = () => {
   function show1(str) {
     document.getElementById("add-industry-btn").style.display = "block";
     document.getElementById("view-list-btn").style.display = "none";
@@ -17,12 +17,8 @@ const SchoolMaster = () => {
   }
 
   const [inputs, setInputs] = useState({
-    schoolcode: "",
-    schoolname: "",
-    state: "",
-    district: "",
-    address: "",
-    pincode: "",
+    partnername: "",
+    logo: "",
   });
 
   const [users, setUsers] = useState([]);
@@ -40,16 +36,14 @@ const SchoolMaster = () => {
     }));
   };
 
+  //console.log(inputs.statecode, inputs.statename, isChecked);
+
   //form handle
   const handleSubmit = async (e) => {
     try {
-      const { data } = await axios.post("/api/v1/school/register", {
-        schoolcode: inputs.schoolcode,
-        schoolname: inputs.schoolname,
-        state: inputs.state,
-        district: inputs.district,
-        address: inputs.address,
-        pincode: inputs.pincode,
+      const { data } = await axios.post("/api/v1/partner/register", {
+        partnername: inputs.partnername,
+        logo: inputs.logo,
         isActive: isChecked,
       });
       if (data.success) {
@@ -63,7 +57,7 @@ const SchoolMaster = () => {
 
   const fetchAllUsers = async () => {
     try {
-      const { data } = await axios.get("/api/v1/school/all-schools");
+      const { data } = await axios.get("/api/v1/partner/all-partners");
       if (data?.success) {
         setUsers(data.users);
         //console.log("users ", users);
@@ -117,7 +111,7 @@ const SchoolMaster = () => {
                           aria-current="page"
                         >
                           {" "}
-                          School List
+                          State
                         </li>
                       </ol>
                     </div>
@@ -144,7 +138,7 @@ const SchoolMaster = () => {
                   <div className="card" id="view-list">
                     <div className="card-header bg-primary text-white">
                       <h3 className="card-title col-md-10">
-                        <i className="fa fa-list me-2"></i> School List
+                        <i className="fa fa-list me-2"></i> Partner List
                       </h3>
                     </div>
 
@@ -173,25 +167,10 @@ const SchoolMaster = () => {
                               SNo.
                             </th>
                             <th className="wd-15p border-bottom-0 text-white">
-                              School ID
+                              Partner Name
                             </th>
                             <th className="wd-15p border-bottom-0 text-white">
-                              School Code
-                            </th>
-                            <th className="wd-15p border-bottom-0 text-white">
-                              School Name{" "}
-                            </th>
-                            <th className="wd-15p border-bottom-0 text-white">
-                              State
-                            </th>
-                            <th className="wd-15p border-bottom-0 text-white">
-                              District
-                            </th>
-                            <th className="wd-15p border-bottom-0 text-white">
-                              Address{" "}
-                            </th>
-                            <th className="wd-15p border-bottom-0 text-white">
-                              Pincode{" "}
+                              Logo
                             </th>
                             <th className="w-10 border-bottom-0 text-white text-center">
                               Status
@@ -206,13 +185,8 @@ const SchoolMaster = () => {
                             return (
                               <tr key={key}>
                                 <td className="text-center">{key + 1}</td>
-                                <td>{value._id}</td>
-                                <td>{value.schoolcode}</td>
-                                <td>{value.schoolname}</td>
-                                <td>{value.state}</td>
-                                <td>{value.district}</td>
-                                <td>{value.address}</td>
-                                <td>{value.pincode}</td>
+                                <td>{value.partnername}</td>
+                                <td>{value.logo}</td>
                                 <td className="text-center">
                                   <span className="badge bg-success">
                                     {value.isActive ? "Active" : "Inactive"}
@@ -231,12 +205,8 @@ const SchoolMaster = () => {
                           })}
                           {/* <tr>
                             <td className="text-center">2</td>
-                            <td>SCH-002</td>
-                            <td>School Name</td>
-                            <td>Uttar Pradesh</td>
-                            <td>Agra</td>
-                            <td>Address</td>
-                            <td>208022</td>
+                            <td></td>
+                            <td>Asam</td>
                             <td className="text-center">
                               <span className="badge bg-success">Active</span>
                             </td>
@@ -248,12 +218,8 @@ const SchoolMaster = () => {
                           </tr>
                           <tr>
                             <td className="text-center">3</td>
-                            <td>SCH-003</td>
-                            <td>School Name</td>
-                            <td>Uttar Pradesh</td>
-                            <td>Agra</td>
-                            <td>Address</td>
-                            <td>208023</td>
+                            <td></td>
+                            <td>Bihar</td>
                             <td className="text-center">
                               <span className="badge bg-success">Active</span>
                             </td>
@@ -273,111 +239,48 @@ const SchoolMaster = () => {
                     <div className="card">
                       <div className="card-header bg-primary text-white">
                         <h3 className="card-title col-md-10">
-                          <i className="fa fa-plus-circle me-2"></i>Create
-                          School
+                          <i className="fa fa-plus-circle me-2"></i>Create State
                         </h3>
                       </div>
                       <div className="card-body">
                         <div className="row">
                           <div className="col-md-4">
                             <label className="form-label">
-                              School Code<span className="text-red">*</span>
+                              Partner Name<span className="text-red">*</span>
                             </label>
                             <input
-                              value={inputs.schoolcode}
+                              value={inputs.partnername}
                               onChange={handleChange}
-                              name="schoolcode"
+                              name="partnername"
                               type="text"
                               className="form-control"
-                              placeholder="Enter School Code"
+                              placeholder="Enter Partner name"
                             />
                           </div>
                           <div className="col-md-4">
                             <label className="form-label">
-                              School Name<span className="text-red">*</span>
+                              Logo<span className="text-red">*</span>
                             </label>
                             <input
-                              value={inputs.schoolname}
+                              value={inputs.logo}
                               onChange={handleChange}
-                              name="schoolname"
+                              name="logo"
                               type="text"
                               className="form-control"
-                              placeholder="Enter School Name"
+                              placeholder="Enter logo"
                             />
                           </div>
-                          <div className="col-md-4">
-                            <label className="form-label">
-                              State<span className="text-red">*</span>
-                            </label>
-                            <select
-                              className="form-control"
-                              value={inputs.state}
-                              onChange={handleChange}
-                              name="state"
-                            >
-                              <option value="Select State">Select State</option>
-                              <option value="Uttar Pradesh">
-                                Uttar Pradesh
-                              </option>
-                              <option value="Madhya Pradesh">
-                                Madhya Pradesh
-                              </option>
-                            </select>
-                          </div>
-                          <div className="col-md-4">
-                            <label className="form-label">
-                              District<span className="text-red">*</span>
-                            </label>
-                            <select
-                              className="form-control"
-                              value={inputs.district}
-                              onChange={handleChange}
-                              name="district"
-                            >
-                              <option value="Select District">
-                                Select District
-                              </option>
-                              <option value="Agra">Agra</option>
-                              <option value="Kanpur">Kanpur</option>
-                            </select>
-                          </div>
-                          <div className="col-md-8">
-                            <label className="form-label">
-                              {" "}
-                              Address<span className="text-red">*</span>
-                            </label>
-                            <input
-                              value={inputs.address}
-                              onChange={handleChange}
-                              name="address"
-                              type="text"
-                              className="form-control"
-                              placeholder="Enter Address"
-                            />
-                          </div>
-                          <div className="col-md-4">
-                            <label className="form-label">
-                              Pincode<span className="text-red">*</span>
-                            </label>
-                            <input
-                              value={inputs.pincode}
-                              onChange={handleChange}
-                              name="pincode"
-                              type="text"
-                              className="form-control"
-                              placeholder="Enter Pincode"
-                            />
-                          </div>
+
                           <div className="col-md-2">
                             <label className="form-label">
                               Is-Active<span className="text-red">*</span>
                             </label>
                             <input
                               type="checkbox"
-                              className="cc-checkbox"
                               id="checkbox"
                               checked={isChecked}
                               onChange={checkHandler}
+                              className="cc-checkbox"
                             />
                           </div>
                         </div>
@@ -390,7 +293,6 @@ const SchoolMaster = () => {
                           className="btn btn-primary pull-right me-2"
                           onClick={handleSubmit}
                         >
-                          {" "}
                           <i className="fa fa-floppy-o me-1"></i> Save
                         </button>
                       </div>
@@ -399,7 +301,6 @@ const SchoolMaster = () => {
 
                   {/* <!--------------END add Industry Type Form-----------------> */}
                 </div>
-
                 {/* <!-- End Row --> */}
               </div>
             </div>
@@ -416,7 +317,7 @@ const SchoolMaster = () => {
         <a href="#top" id="back-to-top">
           <i className="fa fa-angle-up"></i>
         </a>
-        {/*<!-- JQUERY JS -->
+        {/* <!-- JQUERY JS -->
     <script src="assets/js/jquery.min.js"></script>
 
     <!-- BOOTSTRAP JS -->
@@ -478,4 +379,4 @@ const SchoolMaster = () => {
   );
 };
 
-export default SchoolMaster;
+export default PartnerMaster;

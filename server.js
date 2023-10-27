@@ -16,6 +16,7 @@ const studentRoutes = require("./routes/studentRoutes");
 const schoolRoutes = require("./routes/schoolRoutes");
 const scoreRoutes = require("./routes/scoreRoutes");
 const rankRoutes = require("./routes/rankRoutes");
+const partnerRoutes = require("./routes/partnerRoutes");
 
 //mongodb connection
 connectDB();
@@ -35,6 +36,7 @@ app.use("/api/v1/student", studentRoutes);
 app.use("/api/v1/school", schoolRoutes);
 app.use("/api/v1/score", scoreRoutes);
 app.use("/api/v1/rank", rankRoutes);
+app.use("/api/v1/partner", partnerRoutes);
 
 //static files
 app.use(express.static(path.join(__dirname, "./client/build")));

@@ -10,21 +10,65 @@ const studentSchema = new mongoose.Schema(
       type: String,
       required: [true, "studentname is required"],
     },
+    parentsname: {
+      type: String,
+      required: [true, "parentsname is required"],
+    },
+    mobile: {
+      type: String,
+      required: [true, "mobile is required"],
+    },
+    classs: {
+      type: String,
+      required: [true, "class is required"],
+    },
+    gender: {
+      type: String,
+      required: [true, "gender is required"],
+    },
+    schoolcode: {
+      type: String,
+      required: [true, "schoolcode is required"],
+    },
     schoolname: {
       type: String,
       required: [true, "schoolname is required"],
     },
-    fathersname: {
+    pin: {
       type: String,
-      required: [true, "fathersname is required"],
+      required: [true, "pin is required"],
     },
-    mobileno: {
+    state: {
       type: String,
-      required: [true, "mobileno is required"],
+      required: [true, "state is required"],
     },
-    email: {
+    district: {
       type: String,
-      required: [true, "email is required"],
+      required: [true, "district is required"],
+    },
+    totalquestion: {
+      type: String,
+      required: [true, "totalquestion is required"],
+    },
+    correctanswer: {
+      type: String,
+      required: [true, "correctanswer is required"],
+    },
+    notattempted: {
+      type: String,
+      required: [true, "notattempted is required"],
+    },
+    neatness: {
+      type: String,
+      required: [true, "neatness is required"],
+    },
+    score: {
+      type: String,
+      required: [true, "score is required"],
+    },
+    percentage: {
+      type: String,
+      required: [true, "percentage is required"],
     },
     isActive: {
       type: Boolean,
