@@ -5,6 +5,7 @@ const colors = require("colors");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db");
 const path = require("path");
+var bodyParser = require("body-parser");
 
 //.env config
 dotenv.config();
@@ -28,6 +29,9 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(morgan("dev"));
+
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 //routes
 app.use("/api/v1/state", stateRoutes);

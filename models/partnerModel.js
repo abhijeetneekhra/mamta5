@@ -6,9 +6,14 @@ const partnerSchema = new mongoose.Schema(
       type: String,
       required: [true, "statecode is required"],
     },
-    logo: {
+    logoname: {
       type: String,
-      required: [true, "statename is required"],
+      required: [true, "logoname is required"],
+    },
+    logocontent: { type: Buffer, required: [true, "imgcontent is required"] },
+    contentType: {
+      type: String,
+      required: [true, "contentType is required"],
     },
     isActive: {
       type: Boolean,

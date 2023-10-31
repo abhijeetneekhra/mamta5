@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import axios from "axios";
+import { Buffer } from "buffer";
 
 const PartnerMaster = () => {
   function show1(str) {
@@ -15,6 +16,8 @@ const PartnerMaster = () => {
     document.getElementById("add-form").style.display = "block";
     document.getElementById("view-list").style.display = "none";
   }
+
+  const [image, setImage] = useState({ preview: "", data: "" });
 
   const [inputs, setInputs] = useState({
     partnername: "",
@@ -41,11 +44,19 @@ const PartnerMaster = () => {
   //form handle
   const handleSubmit = async (e) => {
     try {
-      const { data } = await axios.post("/api/v1/partner/register", {
+      let formData = new FormData();
+      formData.append("file", image.data);
+
+      const { data } = await axios.post("/api/v1/partner/register2", formData);
+
+      console.log("Partner object created with file: " + data);
+
+      await axios.post("/api/v1/partner/register", {
         partnername: inputs.partnername,
-        logo: inputs.logo,
         isActive: isChecked,
+        id: data.id,
       });
+
       if (data.success) {
         toast.success("User Saved Successfully");
         window.location.reload();
@@ -70,6 +81,14 @@ const PartnerMaster = () => {
   useEffect(() => {
     fetchAllUsers();
   }, []);
+
+  const handleFileChange = (e) => {
+    const img = {
+      preview: URL.createObjectURL(e.target.files[0]),
+      data: e.target.files[0],
+    };
+    setImage(img);
+  };
 
   return (
     <>
@@ -186,7 +205,18 @@ const PartnerMaster = () => {
                               <tr key={key}>
                                 <td className="text-center">{key + 1}</td>
                                 <td>{value.partnername}</td>
-                                <td>{value.logo}</td>
+                                <td>
+                                  {
+                                    <img
+                                      style={{ width: 30, height: 30 }}
+                                      src={`data:${
+                                        value.contentType
+                                      };base64, ${Buffer.from(
+                                        value.logocontent
+                                      ).toString("base64")}`}
+                                    ></img>
+                                  }
+                                </td>
                                 <td className="text-center">
                                   <span className="badge bg-success">
                                     {value.isActive ? "Active" : "Inactive"}
@@ -257,20 +287,16 @@ const PartnerMaster = () => {
                               placeholder="Enter Partner name"
                             />
                           </div>
-                          <div className="col-md-4">
+                          <div className="col-md-2">
                             <label className="form-label">
                               Logo<span className="text-red">*</span>
                             </label>
                             <input
-                              value={inputs.logo}
-                              onChange={handleChange}
-                              name="logo"
-                              type="text"
-                              className="form-control"
-                              placeholder="Enter logo"
-                            />
+                              type="file"
+                              name="file"
+                              onChange={handleFileChange}
+                            ></input>
                           </div>
-
                           <div className="col-md-2">
                             <label className="form-label">
                               Is-Active<span className="text-red">*</span>
