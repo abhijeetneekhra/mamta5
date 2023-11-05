@@ -159,8 +159,11 @@ const StateMaster = () => {
                         </div>
                       </div>
                     </div>
-                    <div className="table-responsive">
-                      <table className="table table-bordered border-bottom text-nowrap">
+                    {/* <div className="table-responsive">
+                      <table
+                        id="data-table"
+                        className="table table-bordered border-bottom text-nowrap"
+                      >
                         <thead className="bg-gray">
                           <tr>
                             <th className="w-5 border-bottom-0 text-white">
@@ -203,35 +206,162 @@ const StateMaster = () => {
                               </tr>
                             );
                           })}
-                          {/* <tr>
-                            <td className="text-center">2</td>
-                            <td></td>
-                            <td>Asam</td>
-                            <td className="text-center">
-                              <span className="badge bg-success">Active</span>
-                            </td>
-                            <td className="text-center">
-                              <a className="btn btn-info action_btn" href="#">
-                                <i className="fa fa-unlock fa-sm"></i>
-                              </a>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td className="text-center">3</td>
-                            <td></td>
-                            <td>Bihar</td>
-                            <td className="text-center">
-                              <span className="badge bg-success">Active</span>
-                            </td>
-                            <td className="text-center">
-                              <a className="btn btn-info action_btn" href="#">
-                                <i className="fa fa-unlock fa-sm"></i>
-                              </a>
-                            </td>
-                          </tr> */}
                         </tbody>
                       </table>
+                    </div> */}
+                    {/* <!-- ROW-5 --> */}
+                    <div className="row">
+                      <div className="col-12 col-sm-12">
+                        <div className="card">
+                          <div className="card-header">
+                            <h3 className="card-title mb-0">Student Records</h3>
+                          </div>
+                          <div className="card-body">
+                            <div className="table-responsive">
+                              <table
+                                id="data-table"
+                                className="table table-bordered text-nowrap mb-0"
+                              >
+                                <thead className="border-top">
+                                  <tr>
+                                    <th className="bg-transparent border-bottom-0 w-5 text-center">
+                                      SNo.
+                                    </th>
+                                    <th className="bg-transparent border-bottom-0 text-center">
+                                      State Abbr.
+                                    </th>
+                                    <th className="bg-transparent border-bottom-0 text-center">
+                                      State Name
+                                    </th>
+                                    <th className="bg-transparent border-bottom-0 text-center">
+                                      Status
+                                    </th>
+                                    <th className="bg-transparent border-bottom-0 text-center">
+                                      Action
+                                    </th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {users.map((value, key) => {
+                                    return (
+                                      <tr key={key}>
+                                        <td className="fs-15 fw-bold text-center">
+                                          {key + 1}
+                                        </td>
+                                        <td>{value.statecode}</td>
+                                        <td>{value.statename}</td>
+                                        <td className="text-center">
+                                          <span className="badge bg-success">
+                                            {value.isActive
+                                              ? "Active"
+                                              : "Inactive"}
+                                          </span>
+                                        </td>
+                                        <td className="text-center">
+                                          <a
+                                            className="btn btn-info action_btn"
+                                            href="#"
+                                          >
+                                            <i className="fa fa-unlock fa-sm"></i>
+                                          </a>
+                                        </td>
+                                      </tr>
+                                    );
+                                  })}
+                                  {/* <tr className="border-bottom">
+                                    <td className="fs-15 fw-bold text-center">
+                                      Level 1 (I-II)
+                                    </td>
+                                    <td className="text-center">
+                                      <a href="#">Click Here</a>
+                                    </td>
+                                    <td className="text-center">
+                                      <a href="#">Click Here</a>
+                                    </td>
+                                    <td className="text-center">
+                                      <a href="#">Click Here</a>
+                                    </td>
+                                    <td className="text-center">
+                                      <a href="#">Click Here</a>
+                                    </td>
+                                  </tr>
+                                  <tr className="border-bottom">
+                                    <td className="fs-15 fw-bold text-center">
+                                      Level 2(III-IV)
+                                    </td>
+                                    <td className="text-center">
+                                      <a href="#">Click Here</a>
+                                    </td>
+                                    <td className="text-center">
+                                      <a href="#">Click Here</a>
+                                    </td>
+                                    <td className="text-center">
+                                      <a href="#">Click Here</a>
+                                    </td>
+                                    <td className="text-center">
+                                      <a href="#">Click Here</a>
+                                    </td>
+                                  </tr>
+                                  <tr className="border-bottom">
+                                    <td className="fs-15 fw-bold text-center">
+                                      Level 3(V-VI)
+                                    </td>
+                                    <td className="text-center">
+                                      <a href="#">Click Here</a>
+                                    </td>
+                                    <td className="text-center">
+                                      <a href="#">Click Here</a>
+                                    </td>
+                                    <td className="text-center">
+                                      <a href="#">Click Here</a>
+                                    </td>
+                                    <td className="text-center">
+                                      <a href="#">Click Here</a>
+                                    </td>
+                                  </tr>
+                                  <tr className="border-bottom">
+                                    <td className="fs-15 fw-bold text-center">
+                                      Level 4(VII-VIII)
+                                    </td>
+                                    <td className="text-center">
+                                      <a href="#">Click Here</a>
+                                    </td>
+                                    <td className="text-center">
+                                      <a href="#">Click Here</a>
+                                    </td>
+                                    <td className="text-center">
+                                      <a href="#">Click Here</a>
+                                    </td>
+                                    <td className="text-center">
+                                      <a href="#">Click Here</a>
+                                    </td>
+                                  </tr>
+                                  <tr className="border-bottom">
+                                    <td className="fs-15 fw-bold text-center">
+                                      Level 5(IX-X)
+                                    </td>
+                                    <td className="text-center">
+                                      <a href="#">Click Here</a>
+                                    </td>
+                                    <td className="text-center">
+                                      <a href="#">Click Here</a>
+                                    </td>
+                                    <td className="text-center">
+                                      <a href="#">Click Here</a>
+                                    </td>
+                                    <td className="text-center">
+                                      <a href="#">Click Here</a>
+                                    </td>
+                                  </tr> */}
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      {/* <!-- COL END --> */}
                     </div>
+                    {/* <!-- ROW-5 END --> */}
                   </div>
 
                   {/* <!--------------START add Industry Type Form-----------------> */}

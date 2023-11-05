@@ -109,7 +109,7 @@
                           class="nav-link icon border"
                           title="logout"
                         >
-                          <!-- <i class="fa fa-lock"></i> -->
+                          <i class="fa fa-lock" onclick="handleLogout()"></i>
                         </a>
                       </div>
                       <!-- SIDE-MENU -->
@@ -349,5 +349,12 @@
 
     <!-- CUSTOM JS -->
     <script src="assets/js/custom.js"></script>
+
+    <script>
+      function handleLogout() {
+        localStorage.clear();
+        window.location.href = "http://localhost:3000/login";
+      }
+    </script>
   </body>
 </html>
