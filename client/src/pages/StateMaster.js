@@ -1,6 +1,55 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react";
 import toast from "react-hot-toast";
 import axios from "axios";
+//import 'bootstrap/dist/css/bootstrap.min.css';
+import "react-bootstrap-table-next/dist/react-bootstrap-table2.css";
+import "react-bootstrap-table2-paginator/dist/react-bootstrap-table2-paginator.min.css";
+import BootstrapTable from "react-bootstrap-table-next";
+import paginationFactory from "react-bootstrap-table2-paginator";
+import ToolkitProvider, {
+  Search,
+} from "react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit";
+
+const columns = [
+  { dataField: "statecode", text: "STATE ABBR.", sort: true },
+  { dataField: "statename", text: "State Name", sort: true },
+  { dataField: "isActive", text: "Status", formatter: statusFormatter },
+  { dataField: "_id", text: "Action", formatter: actionFormatter },
+];
+
+// Process the returned data in the formatter
+function statusFormatter(cell, row, rowIndex, formatExtraData) {
+  return <span class="badge bg-success">{cell ? "Active" : "Inactive"}</span>;
+}
+
+// Process the returned data in the formatter
+function actionFormatter(cell, row, rowIndex, formatExtraData) {
+  return (
+    <a class="btn btn-info action_btn" href="#">
+      <i class="fa fa-unlock fa-sm"></i>
+    </a>
+  );
+}
+
+const defaultSorted = [
+  {
+    dataField: "statename",
+    order: "asc",
+  },
+];
+
+const pagination = paginationFactory({
+  page: 2,
+  sizePerPage: 5,
+  nextPageText: "Next",
+  prePageText: "Previous",
+  showTotal: true,
+  withFirstAndLast: false,
+});
+
+const rowStyle = { backgroundColor: "#FFFFFF" };
+
+const { SearchBar, ClearSearchButton } = Search;
 
 const StateMaster = () => {
   function show1(str) {
@@ -23,6 +72,31 @@ const StateMaster = () => {
 
   const [users, setUsers] = useState([]);
 
+  const MySearch = (props) => {
+    let input;
+    const handleClick = () => {
+      props.onSearch(input.value);
+    };
+    return (
+      <div className="input-group p-0">
+        <input
+          className="form-control"
+          ref={(n) => (input = n)}
+          type="text"
+          placeholder="Search for..."
+        />
+        <button
+          className="input-group-text btn btn-primary"
+          onClick={handleClick}
+        >
+          Go
+        </button>
+      </div>
+    );
+  };
+
+  const [isLoading, setLoading] = useState(true); // Loading state
+
   const [isChecked, setIsChecked] = useState(false);
 
   const checkHandler = () => {
@@ -35,8 +109,6 @@ const StateMaster = () => {
       [e.target.name]: e.target.value,
     }));
   };
-
-  //console.log(inputs.statecode, inputs.statename, isChecked);
 
   //form handle
   const handleSubmit = async (e) => {
@@ -60,6 +132,7 @@ const StateMaster = () => {
       const { data } = await axios.get("/api/v1/state/all-states");
       if (data?.success) {
         setUsers(data.users);
+        setLoading(false); //set loading state
         //console.log("users ", users);
       }
     } catch (error) {
@@ -67,7 +140,7 @@ const StateMaster = () => {
     }
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     fetchAllUsers();
   }, []);
 
@@ -135,6 +208,7 @@ const StateMaster = () => {
                     </div>
                   </div>
                   {/* <!-- PAGE-HEADER END --> */}
+
                   <div className="card" id="view-list">
                     <div className="card-header bg-primary text-white">
                       <h3 className="card-title col-md-10">
@@ -142,226 +216,55 @@ const StateMaster = () => {
                       </h3>
                     </div>
 
-                    <div className="card mb-0">
-                      <div className="card-header bg-success-transparent">
-                        <h4 className="card-title col-md-9">
-                          <i className="fa fa-filter me-2"></i> Search Filters
-                        </h4>
-                        <div className="input-group col-md-3 p-0">
-                          <input
-                            type="text"
-                            className="form-control "
-                            placeholder="Search for..."
-                          />
-                          <span className="input-group-text btn btn-primary">
-                            Go!
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                    {/* <div className="table-responsive">
-                      <table
-                        id="data-table"
-                        className="table table-bordered border-bottom text-nowrap"
-                      >
-                        <thead className="bg-gray">
-                          <tr>
-                            <th className="w-5 border-bottom-0 text-white">
-                              SNo.
-                            </th>
-                            <th className="wd-15p border-bottom-0 text-white">
-                              State Abbr.
-                            </th>
-                            <th className="wd-15p border-bottom-0 text-white">
-                              State Name{" "}
-                            </th>
-                            <th className="w-10 border-bottom-0 text-white text-center">
-                              Status
-                            </th>
-                            <th className="w-10 border-bottom-0 text-white text-center">
-                              Action
-                            </th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {users.map((value, key) => {
-                            return (
-                              <tr key={key}>
-                                <td className="text-center">{key + 1}</td>
-                                <td>{value.statecode}</td>
-                                <td>{value.statename}</td>
-                                <td className="text-center">
-                                  <span className="badge bg-success">
-                                    {value.isActive ? "Active" : "Inactive"}
-                                  </span>
-                                </td>
-                                <td className="text-center">
-                                  <a
-                                    className="btn btn-info action_btn"
-                                    href="#"
-                                  >
-                                    <i className="fa fa-unlock fa-sm"></i>
-                                  </a>
-                                </td>
-                              </tr>
-                            );
-                          })}
-                        </tbody>
-                      </table>
-                    </div> */}
-                    {/* <!-- ROW-5 --> */}
-                    <div className="row">
-                      <div className="col-12 col-sm-12">
-                        <div className="card">
-                          <div className="card-header">
-                            <h3 className="card-title mb-0">Student Records</h3>
-                          </div>
-                          <div className="card-body">
-                            <div className="table-responsive">
-                              <table
-                                id="data-table"
-                                className="table table-bordered text-nowrap mb-0"
-                              >
-                                <thead className="border-top">
-                                  <tr>
-                                    <th className="bg-transparent border-bottom-0 w-5 text-center">
-                                      SNo.
-                                    </th>
-                                    <th className="bg-transparent border-bottom-0 text-center">
-                                      State Abbr.
-                                    </th>
-                                    <th className="bg-transparent border-bottom-0 text-center">
-                                      State Name
-                                    </th>
-                                    <th className="bg-transparent border-bottom-0 text-center">
-                                      Status
-                                    </th>
-                                    <th className="bg-transparent border-bottom-0 text-center">
-                                      Action
-                                    </th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  {users.map((value, key) => {
-                                    return (
-                                      <tr key={key}>
-                                        <td className="fs-15 fw-bold text-center">
-                                          {key + 1}
-                                        </td>
-                                        <td>{value.statecode}</td>
-                                        <td>{value.statename}</td>
-                                        <td className="text-center">
-                                          <span className="badge bg-success">
-                                            {value.isActive
-                                              ? "Active"
-                                              : "Inactive"}
-                                          </span>
-                                        </td>
-                                        <td className="text-center">
-                                          <a
-                                            className="btn btn-info action_btn"
-                                            href="#"
-                                          >
-                                            <i className="fa fa-unlock fa-sm"></i>
-                                          </a>
-                                        </td>
-                                      </tr>
-                                    );
-                                  })}
-                                  {/* <tr className="border-bottom">
-                                    <td className="fs-15 fw-bold text-center">
-                                      Level 1 (I-II)
-                                    </td>
-                                    <td className="text-center">
-                                      <a href="#">Click Here</a>
-                                    </td>
-                                    <td className="text-center">
-                                      <a href="#">Click Here</a>
-                                    </td>
-                                    <td className="text-center">
-                                      <a href="#">Click Here</a>
-                                    </td>
-                                    <td className="text-center">
-                                      <a href="#">Click Here</a>
-                                    </td>
-                                  </tr>
-                                  <tr className="border-bottom">
-                                    <td className="fs-15 fw-bold text-center">
-                                      Level 2(III-IV)
-                                    </td>
-                                    <td className="text-center">
-                                      <a href="#">Click Here</a>
-                                    </td>
-                                    <td className="text-center">
-                                      <a href="#">Click Here</a>
-                                    </td>
-                                    <td className="text-center">
-                                      <a href="#">Click Here</a>
-                                    </td>
-                                    <td className="text-center">
-                                      <a href="#">Click Here</a>
-                                    </td>
-                                  </tr>
-                                  <tr className="border-bottom">
-                                    <td className="fs-15 fw-bold text-center">
-                                      Level 3(V-VI)
-                                    </td>
-                                    <td className="text-center">
-                                      <a href="#">Click Here</a>
-                                    </td>
-                                    <td className="text-center">
-                                      <a href="#">Click Here</a>
-                                    </td>
-                                    <td className="text-center">
-                                      <a href="#">Click Here</a>
-                                    </td>
-                                    <td className="text-center">
-                                      <a href="#">Click Here</a>
-                                    </td>
-                                  </tr>
-                                  <tr className="border-bottom">
-                                    <td className="fs-15 fw-bold text-center">
-                                      Level 4(VII-VIII)
-                                    </td>
-                                    <td className="text-center">
-                                      <a href="#">Click Here</a>
-                                    </td>
-                                    <td className="text-center">
-                                      <a href="#">Click Here</a>
-                                    </td>
-                                    <td className="text-center">
-                                      <a href="#">Click Here</a>
-                                    </td>
-                                    <td className="text-center">
-                                      <a href="#">Click Here</a>
-                                    </td>
-                                  </tr>
-                                  <tr className="border-bottom">
-                                    <td className="fs-15 fw-bold text-center">
-                                      Level 5(IX-X)
-                                    </td>
-                                    <td className="text-center">
-                                      <a href="#">Click Here</a>
-                                    </td>
-                                    <td className="text-center">
-                                      <a href="#">Click Here</a>
-                                    </td>
-                                    <td className="text-center">
-                                      <a href="#">Click Here</a>
-                                    </td>
-                                    <td className="text-center">
-                                      <a href="#">Click Here</a>
-                                    </td>
-                                  </tr> */}
-                                </tbody>
-                              </table>
+                    <ToolkitProvider
+                      bootstrap4
+                      keyField="_id"
+                      data={users}
+                      columns={columns}
+                      search
+                    >
+                      {(props) => (
+                        <div>
+                          <div className="card mb-0">
+                            <div className="card-header bg-success-transparent">
+                              <h4 className="card-title col-md-9">
+                                <i className="fa fa-filter me-2"></i> Search
+                                Filters
+                              </h4>
+                              <div className="input-group col-md-3 p-0">
+                                <MySearch {...props.searchProps} />
+                              </div>
                             </div>
                           </div>
+
+                          {/* <!-- ROW-5 --> */}
+
+                          <div className="row">
+                            <div className="col-12 col-sm-12">
+                              <div className="card">
+                                <div className="card-header">
+                                  <h3 className="card-title mb-0">
+                                    Student Records
+                                  </h3>
+                                </div>
+                                <div className="card-body">
+                                  <div className="table-responsive">
+                                    <BootstrapTable
+                                      rowStyle={rowStyle}
+                                      defaultSorted={defaultSorted}
+                                      pagination={pagination}
+                                      {...props.baseProps}
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            {/* <!-- COL END --> */}
+                          </div>
+                          {/* <!-- ROW-5 END --> */}
                         </div>
-                      </div>
-                      {/* <!-- COL END --> */}
-                    </div>
-                    {/* <!-- ROW-5 END --> */}
+                      )}
+                    </ToolkitProvider>
                   </div>
 
                   {/* <!--------------START add Industry Type Form-----------------> */}
