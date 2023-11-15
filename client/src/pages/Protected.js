@@ -8,7 +8,7 @@ const Protected = (props) => {
     let login = localStorage.getItem("login");
     //let token = localStorage.getItem("token");
     if (!login) {
-      navigate("/login");
+      navigate("/login2");
     }
   });
   return (

@@ -2,6 +2,79 @@ import React, { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { CSVLink } from "react-csv";
+import "react-bootstrap-table-next/dist/react-bootstrap-table2.css";
+import "react-bootstrap-table2-paginator/dist/react-bootstrap-table2-paginator.min.css";
+import BootstrapTable from "react-bootstrap-table-next";
+import paginationFactory from "react-bootstrap-table2-paginator";
+import ToolkitProvider, {
+  Search,
+} from "react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit";
+
+const columns = [
+  {
+    dataField: "studentcode",
+    text: "Student Code",
+    sort: true,
+    classes: "wd-15p border-bottom-0",
+  },
+  {
+    dataField: "studentname",
+    text: "Student Name",
+    sort: true,
+    classes: "wd-15p border-bottom-0",
+  },
+  { dataField: "parentsname", text: "Parents Name", sort: true },
+  { dataField: "mobile", text: "Mobile", sort: true },
+  { dataField: "classs", text: "Class", sort: true },
+  { dataField: "gender", text: "Gender", sort: true },
+  { dataField: "schoolcode", text: "School Code", sort: true },
+  { dataField: "schoolname", text: "School Name", sort: true },
+  { dataField: "pin", text: "Pin", sort: true },
+  { dataField: "state", text: "State", sort: true },
+  { dataField: "district", text: "District", sort: true },
+  { dataField: "totalquestion", text: "Total Question", sort: true },
+  { dataField: "correctanswer", text: "Correct Answer", sort: true },
+  { dataField: "notattempted", text: "Not Attempted", sort: true },
+  { dataField: "neatness", text: "Neatness", sort: true },
+  { dataField: "score", text: "Score", sort: true },
+  { dataField: "percentage", text: "Percentage", sort: true },
+  { dataField: "isActive", text: "Status", formatter: statusFormatter },
+  { dataField: "_id", text: "Action", formatter: actionFormatter },
+];
+
+// Process the returned data in the formatter
+function statusFormatter(cell, row, rowIndex, formatExtraData) {
+  return <span class="badge bg-success">{cell ? "Active" : "Inactive"}</span>;
+}
+
+// Process the returned data in the formatter
+function actionFormatter(cell, row, rowIndex, formatExtraData) {
+  return (
+    <a class="btn btn-info action_btn" href="#">
+      <i class="fa fa-unlock fa-sm"></i>
+    </a>
+  );
+}
+
+const defaultSorted = [
+  {
+    dataField: "scorename",
+    order: "asc",
+  },
+];
+
+const pagination = paginationFactory({
+  page: 2,
+  sizePerPage: 5,
+  nextPageText: "Next",
+  prePageText: "Previous",
+  showTotal: true,
+  withFirstAndLast: false,
+});
+
+const rowStyle = { backgroundColor: "#FFFFFF" };
+
+const { SearchBar, ClearSearchButton } = Search;
 
 const StudentMaster = () => {
   function show1(str) {
@@ -38,6 +111,29 @@ const StudentMaster = () => {
   });
 
   const [users, setUsers] = useState([]);
+
+  const MySearch = (props) => {
+    let input;
+    const handleClick = () => {
+      props.onSearch(input.value);
+    };
+    return (
+      <div className="input-group p-0">
+        <input
+          className="form-control"
+          ref={(n) => (input = n)}
+          type="text"
+          placeholder="Search for..."
+        />
+        <button
+          className="input-group-text btn btn-primary"
+          onClick={handleClick}
+        >
+          Go
+        </button>
+      </div>
+    );
+  };
 
   const [isChecked, setIsChecked] = useState(false);
 
@@ -173,184 +269,56 @@ const StudentMaster = () => {
                       </h3>
                     </div>
 
-                    <div className="card mb-0">
-                      <div className="card-header bg-success-transparent">
-                        <h4 className="card-title col-md-3">
-                          <i className="fa fa-filter me-2"></i> Search Filters
-                        </h4>
-                        <div className="input-group col-md-2 p-0">
-                          <select className="form-control">
-                            <option value="Select State">Select State</option>
-                          </select>
+                    <ToolkitProvider
+                      bootstrap4
+                      keyField="_id"
+                      data={users}
+                      columns={columns}
+                      search
+                    >
+                      {(props) => (
+                        <div>
+                          <div className="card mb-0">
+                            <div className="card-header bg-success-transparent">
+                              <h4 className="card-title col-md-9">
+                                <i className="fa fa-filter me-2"></i> Search
+                                Filters
+                              </h4>
+                              <div className="input-group col-md-3 p-0">
+                                <MySearch {...props.searchProps} />
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* <!-- ROW-5 --> */}
+
+                          <div className="row">
+                            <div className="col-12 col-sm-12">
+                              <div className="card">
+                                <div className="card-header">
+                                  <h3 className="card-title mb-0">
+                                    Student Records
+                                  </h3>
+                                </div>
+                                <div className="card-body">
+                                  <div className="table-responsive">
+                                    <BootstrapTable
+                                      rowStyle={rowStyle}
+                                      defaultSorted={defaultSorted}
+                                      pagination={pagination}
+                                      {...props.baseProps}
+                                      responsive
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            {/* <!-- COL END --> */}
+                          </div>
+                          {/* <!-- ROW-5 END --> */}
                         </div>
-                        &nbsp;&nbsp;
-                        <div className="input-group col-md-2 p-0">
-                          <select className="form-control">
-                            <option value="Select District">
-                              Select District
-                            </option>
-                          </select>
-                        </div>
-                        &nbsp;&nbsp;
-                        <div className="input-group col-md-2 p-0">
-                          <span className="input-group-text btn btn-primary">
-                            Go!
-                          </span>
-                        </div>
-                        <div className="input-group col-md-2 p-0">
-                          <CSVLink
-                            type="button"
-                            class="btn btn-success btn-lg"
-                            data={users}
-                            filename={"student-registrations.csv"}
-                            style={{ margin: "11px" }}
-                          >
-                            Export All
-                          </CSVLink>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="table-responsive">
-                      <table className="table table-bordered border-bottom text-nowrap">
-                        <thead className="bg-gray">
-                          <tr>
-                            <th className="w-5 border-bottom-0 text-white">
-                              SNo.
-                            </th>
-                            <th className="wd-15p border-bottom-0 text-white">
-                              Student Code
-                            </th>
-                            <th className="wd-15p border-bottom-0 text-white">
-                              Student Name
-                            </th>
-                            <th className="wd-15p border-bottom-0 text-white">
-                              Parents Name
-                            </th>
-                            <th className="wd-15p border-bottom-0 text-white">
-                              Mobile
-                            </th>
-                            <th className="wd-15p border-bottom-0 text-white">
-                              Class
-                            </th>
-                            <th className="wd-15p border-bottom-0 text-white">
-                              Gender
-                            </th>
-                            <th className="wd-15p border-bottom-0 text-white">
-                              School Code
-                            </th>
-                            <th className="wd-15p border-bottom-0 text-white">
-                              School Name
-                            </th>
-                            <th className="wd-15p border-bottom-0 text-white">
-                              Pin
-                            </th>
-                            <th className="wd-15p border-bottom-0 text-white">
-                              State
-                            </th>
-                            <th className="wd-15p border-bottom-0 text-white">
-                              District
-                            </th>
-                            <th className="wd-15p border-bottom-0 text-white">
-                              Total Question
-                            </th>
-                            <th className="wd-15p border-bottom-0 text-white">
-                              Correct Answer
-                            </th>
-                            <th className="wd-15p border-bottom-0 text-white">
-                              Not Attempted
-                            </th>
-                            <th className="wd-15p border-bottom-0 text-white">
-                              Neatness
-                            </th>
-                            <th className="wd-15p border-bottom-0 text-white">
-                              Score
-                            </th>
-                            <th className="wd-15p border-bottom-0 text-white">
-                              Percentage
-                            </th>
-                            <th className="w-10 border-bottom-0 text-white text-center">
-                              Status
-                            </th>
-                            <th className="w-10 border-bottom-0 text-white text-center">
-                              Action
-                            </th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {users.map((value, key) => {
-                            return (
-                              <tr key={key}>
-                                <td className="text-center">{key + 1}</td>
-                                <td>{value.studentcode}</td>
-                                <td>{value.studentname}</td>
-                                <td>{value.parentsname}</td>
-                                <td>{value.mobile}</td>
-                                <td>{value.classs}</td>
-                                <td>{value.gender}</td>
-                                <td>{value.schoolcode}</td>
-                                <td>{value.schoolname}</td>
-                                <td>{value.pin}</td>
-                                <td>{value.state}</td>
-                                <td>{value.district}</td>
-                                <td>{value.totalquestion}</td>
-                                <td>{value.correctanswer}</td>
-                                <td>{value.notattempted}</td>
-                                <td>{value.neatness}</td>
-                                <td>{value.score}</td>
-                                <td>{value.percentage}</td>
-                                <td className="text-center">
-                                  <span className="badge bg-success">
-                                    {value.isActive ? "Active" : "Inactive"}
-                                  </span>
-                                </td>
-                                <td className="text-center">
-                                  <a
-                                    className="btn btn-info action_btn"
-                                    href="#"
-                                  >
-                                    <i className="fa fa-unlock fa-sm"></i>
-                                  </a>
-                                </td>
-                              </tr>
-                            );
-                          })}
-                          {/* <tr>
-                            <td className="text-center">2</td>
-                            <td>SCH-002</td>
-                            <td>School Name</td>
-                            <td>Uttar Pradesh</td>
-                            <td>Agra</td>
-                            <td>Address</td>
-                            <td>208022</td>
-                            <td className="text-center">
-                              <span className="badge bg-success">Active</span>
-                            </td>
-                            <td className="text-center">
-                              <a className="btn btn-info action_btn" href="#">
-                                <i className="fa fa-unlock fa-sm"></i>
-                              </a>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td className="text-center">3</td>
-                            <td>SCH-003</td>
-                            <td>School Name</td>
-                            <td>Uttar Pradesh</td>
-                            <td>Agra</td>
-                            <td>Address</td>
-                            <td>208023</td>
-                            <td className="text-center">
-                              <span className="badge bg-success">Active</span>
-                            </td>
-                            <td className="text-center">
-                              <a className="btn btn-info action_btn" href="#">
-                                <i className="fa fa-unlock fa-sm"></i>
-                              </a>
-                            </td>
-                          </tr> */}
-                        </tbody>
-                      </table>
-                    </div>
+                      )}
+                    </ToolkitProvider>
                   </div>
 
                   {/* <!--------------START add Industry Type Form-----------------> */}

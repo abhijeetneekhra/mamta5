@@ -60,7 +60,10 @@ const Dashboard = () => {
     <div className="main-content app-content mt-0">
       <div className="side-app">
         {/* <!-- CONTAINER --> */}
-        <div className="main-container container-fluid">
+        <div
+          className="main-container container-fluid"
+          // style={{ paddingTop: "148px" }}
+        >
           {/* <!-- PAGE-HEADER --> */}
           <div className="page-header">
             <div>

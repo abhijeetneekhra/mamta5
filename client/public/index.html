@@ -65,7 +65,7 @@
     <div class="page">
       <div class="page-main">
         <!-- app-Header -->
-        <div class="app-header header sticky">
+        <div id="app-header" class="app-header header sticky">
           <div class="container-fluid main-container">
             <div class="d-flex align-items-center">
               <a
@@ -123,7 +123,7 @@
         <!-- /app-Header -->
 
         <!--APP-SIDEBAR-->
-        <div class="sticky">
+        <div id="app-sidebar" class="sticky">
           <div class="app-sidebar__overlay" data-bs-toggle="sidebar"></div>
           <aside class="app-sidebar">
             <div class="side-header">
@@ -275,7 +275,7 @@
       </div>
 
       <!-- FOOTER -->
-      <footer class="footer">
+      <footer id="footer" class="footer">
         <div class="container">
           <div class="row align-items-center flex-row-reverse">
             <div class="col-md-12 col-sm-12 text-center">
@@ -353,7 +353,7 @@
     <script>
       function handleLogout() {
         localStorage.clear();
-        window.location.href = "https://mamta-production.onrender.com/login";
+        window.location.href = "http://localhost:3000/login2";
       }
     </script>
   </body>

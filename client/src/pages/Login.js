@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Box, Typography, TextField, Button } from "@mui/material";
 import axios from "axios";
@@ -38,12 +38,44 @@ const Login = () => {
         //localStorage.setItem("userId", inputs.email);
         //localStorage.setItem("userName", data.user.username);
         //localStorage.setItem("token", data.token);
+
+        const appHeader = document.getElementById("app-header");
+        appHeader.style.display = "block";
+
+        const appSidebar = document.getElementById("app-sidebar");
+        appSidebar.style.display = "block";
+
+        const footer = document.getElementById("footer");
+        footer.style.display = "block";
+
         navigate("/");
       }
     } catch (error) {
       console.log(error);
     }
   };
+
+  const fetchAllUsers = async () => {
+    try {
+      const appHeader = document.getElementById("app-header");
+      appHeader.style.display = "none";
+
+      const appSidebar = document.getElementById("app-sidebar");
+      appSidebar.style.display = "none";
+
+      const footer = document.getElementById("footer");
+      footer.style.display = "none";
+
+      // x.style.display = "block";
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchAllUsers();
+  }, []);
+
   return (
     <>
       <form onSubmit={handleSubmit}>

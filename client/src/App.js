@@ -13,6 +13,7 @@ import ImportingData from "./pages/ImportingData";
 import { Toaster } from "react-hot-toast";
 import Login from "./pages/Login";
 import Protected from "./pages/Protected";
+import Login2 from "./pages/Login2";
 
 const App = () => {
   return (
@@ -57,6 +58,7 @@ const App = () => {
           element={<Protected Component={ImportingData} />}
         />
         <Route path="/login" element={<Login />} />
+        <Route path="/login2" element={<Login2 />} />
       </Routes>
     </BrowserRouter>
   );

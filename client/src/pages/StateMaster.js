@@ -133,6 +133,7 @@ const StateMaster = () => {
       if (data?.success) {
         setUsers(data.users);
         setLoading(false); //set loading state
+        console.log(users);
         //console.log("users ", users);
       }
     } catch (error) {
