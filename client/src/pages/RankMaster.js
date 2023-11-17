@@ -38,7 +38,7 @@ const defaultSorted = [
 ];
 
 const pagination = paginationFactory({
-  page: 2,
+  page: 1,
   sizePerPage: 5,
   nextPageText: "Next",
   prePageText: "Previous",

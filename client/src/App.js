@@ -14,6 +14,7 @@ import { Toaster } from "react-hot-toast";
 import Login from "./pages/Login";
 import Protected from "./pages/Protected";
 import Login2 from "./pages/Login2";
+import StudentMaster2 from "./pages/StudentMaster2";
 
 const App = () => {
   return (
@@ -36,6 +37,10 @@ const App = () => {
         <Route
           path="/studentmaster"
           element={<Protected Component={StudentMaster} />}
+        />
+        <Route
+          path="/studentmaster2"
+          element={<Protected Component={StudentMaster2} />}
         />
         <Route
           path="/scoremaster"

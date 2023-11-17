@@ -64,7 +64,7 @@ const defaultSorted = [
 ];
 
 const pagination = paginationFactory({
-  page: 2,
+  page: 1,
   sizePerPage: 5,
   nextPageText: "Next",
   prePageText: "Previous",
@@ -301,15 +301,13 @@ const StudentMaster = () => {
                                   </h3>
                                 </div>
                                 <div className="card-body">
-                                  <div className="table-responsive">
-                                    <BootstrapTable
-                                      rowStyle={rowStyle}
-                                      defaultSorted={defaultSorted}
-                                      pagination={pagination}
-                                      {...props.baseProps}
-                                      responsive
-                                    />
-                                  </div>
+                                  <BootstrapTable
+                                    classes="table-responsive"
+                                    responsive
+                                    defaultSorted={defaultSorted}
+                                    pagination={pagination}
+                                    {...props.baseProps}
+                                  />
                                 </div>
                               </div>
                             </div>
